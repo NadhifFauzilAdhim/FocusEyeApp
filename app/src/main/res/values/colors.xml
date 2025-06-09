@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="bounding_box_color">#234567</color>
+    <color name="md_theme_onSurface">#FF1F1F1F</color>
+    <color name="focused_green">#4CAF50</color>
+    <color name="unfocused_red">#F44336</color>
+</resources>

@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Latar Belakang Kamera & Overlay -->
+        <androidx.camera.view.PreviewView
+            android:id="@+id/viewFinder"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.surendramaran.yolov8tflite.OverlayView
+            android:id="@+id/overlay"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="@id/viewFinder"
+            app:layout_constraintBottom_toBottomOf="@id/viewFinder"
+            app:layout_constraintStart_toStartOf="@id/viewFinder"
+            app:layout_constraintEnd_toEndOf="@id/viewFinder" />
+
+        <!-- Latar Belakang Semi-Transparan untuk Tombol Atas -->
+        <View
+            android:id="@+id/top_control_scrim"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:background="@drawable/top_scrim_gradient"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Tombol Kontrol Atas -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonSettings"
+            style="?attr/materialIconButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:contentDescription="Settings"
+            app:icon="@drawable/baseline_settings_24"
+            app:iconTint="?attr/colorOnPrimaryContainer"
+            app:layout_constraintEnd_toStartOf="@+id/buttonHistory"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonHistory"
+            style="?attr/materialIconButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:contentDescription="Riwayat Analisis"
+            app:icon="@drawable/baseline_assessment_24"
+            app:iconTint="?attr/colorOnPrimaryContainer"
+            app:layout_constraintEnd_toStartOf="@+id/buttonToggleChart"
+            app:layout_constraintStart_toEndOf="@+id/buttonSettings"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonToggleChart"
+            style="?attr/materialIconButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:contentDescription="Toggle Chart"
+            app:icon="@drawable/baseline_ad_units_24"
+            app:iconTint="?attr/colorOnPrimaryContainer"
+            app:layout_constraintEnd_toStartOf="@+id/buttonSwitchCamera"
+            app:layout_constraintStart_toEndOf="@+id/buttonHistory"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonSwitchCamera"
+            style="?attr/materialIconButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:contentDescription="Switch Camera"
+            app:icon="@drawable/baseline_flip_camera_ios_24"
+            app:iconTint="?attr/colorOnPrimaryContainer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/buttonToggleChart"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardChart"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            app:cardElevation="8dp"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintBottom_toTopOf="@id/cardStats"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:backgroundTint="?attr/colorSurfaceContainer"
+            android:alpha="0.92"
+            android:visibility="visible">
+            <!-- Isi LinearLayout Chart -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Analisis Fokus"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:textColor="?attr/colorOnSurface"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="8dp"/>
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/barChartFocus"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardStats"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:cardElevation="8dp"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:backgroundTint="?attr/colorSurfaceContainerHigh"
+            android:alpha="0.92">
+            <LinearLayout
+                android:id="@+id/layoutStats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="12dp"
+                android:paddingHorizontal="16dp"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Siswa"
+                        android:textAppearance="?attr/textAppearanceBodySmall"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+
+                    <TextView
+                        android:id="@+id/textViewTotalStudents"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textAppearance="?attr/textAppearanceHeadlineSmall"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="?attr/colorOutline"
+                    android:layout_marginHorizontal="8dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Fokus"
+                        android:textAppearance="?attr/textAppearanceBodySmall"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+
+                    <TextView
+                        android:id="@+id/textViewFocusedStudents"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textAppearance="?attr/textAppearanceHeadlineSmall"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="?attr/colorOutline"
+                    android:layout_marginHorizontal="8dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Waktu Proses"
+                        android:textAppearance="?attr/textAppearanceBodySmall"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+
+                    <TextView
+                        android:id="@+id/inferenceTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-"
+                        android:textAppearance="?attr/textAppearanceLabelLarge"
+                        android:textColor="?attr/colorOnSurface"/>
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ▼▼▼ TOMBOL START/STOP & INDIKATOR BARU ▼▼▼ -->
+        <TextView
+            android:id="@+id/recIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/baseline_adjust_24"
+            android:text="REC"
+            android:textColor="@android:color/white"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:backgroundTint="#D32F2F"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@id/fabStartStop"
+            app:layout_constraintEnd_toEndOf="@id/fabStartStop"
+            app:layout_constraintStart_toStartOf="@id/fabStartStop"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/fabStartStop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="Mulai Analisis"
+            app:icon="@drawable/baseline_play_arrow_24"
+            app:layout_constraintBottom_toTopOf="@id/cardChart"
+            app:layout_constraintEnd_toEndOf="parent" />
+        <!-- ▲▲▲ AKHIR DARI TOMBOL & INDIKATOR BARU ▲▲▲ -->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

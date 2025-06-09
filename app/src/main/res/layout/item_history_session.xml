@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/icon_history_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_assessment_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="?attr/colorPrimary"
+            android:contentDescription="History Icon" />
+
+        <TextView
+            android:id="@+id/textViewTimestamp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/icon_history_item"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="09 Jun 2025, 10:30" />
+
+        <TextView
+            android:id="@+id/textViewSessionDetails"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            app:layout_constraintStart_toStartOf="@id/textViewTimestamp"
+            app:layout_constraintTop_toBottomOf="@id/textViewTimestamp"
+            tools:text="Total 5 Siswa" />
+
+        <ImageView
+            android:id="@+id/icon_duration"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="4dp"
+            app:srcCompat="@drawable/baseline_av_timer_24"
+            app:tint="?attr/colorOnSurfaceVariant"
+            app:layout_constraintStart_toStartOf="@id/textViewSessionDetails"
+            app:layout_constraintTop_toBottomOf="@id/textViewSessionDetails"
+            android:contentDescription="Duration Icon"/>
+
+        <TextView
+            android:id="@+id/textViewDuration"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            app:layout_constraintStart_toEndOf="@id/icon_duration"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/icon_duration"
+            app:layout_constraintBottom_toBottomOf="@id/icon_duration"
+            tools:text="Durasi: 5 menit 12 detik" />
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pieChartHistory"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewDuration"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/pieChartHistory"
+            app:layout_constraintTop_toTopOf="@id/pieChartHistory"
+            app:layout_constraintBottom_toBottomOf="@id/pieChartHistory">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <View
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:background="@drawable/chip_background_green" />
+                <TextView
+                    android:id="@+id/textViewFocusedLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    tools:text="Fokus (80%)"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <View
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:background="@drawable/chip_background_red" />
+                <TextView
+                    android:id="@+id/textViewUnfocusedLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    tools:text="Tdk Fokus (20%)"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

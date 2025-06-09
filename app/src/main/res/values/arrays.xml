@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="detection_modes">
+        <item>Both</item>
+        <item>Head Pose Only</item>
+        <item>Iris Detection Only</item>
+    </string-array>
+</resources>
