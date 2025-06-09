@@ -2,6 +2,7 @@ package com.surendramaran.yolov8tflite
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.Delete
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
@@ -14,4 +15,11 @@ interface FocusSessionDao {
     // Fungsi untuk mengambil semua data, diurutkan dari yang terbaru (opsional, berguna untuk nanti)
     @Query("SELECT * FROM focus_sessions ORDER BY timestamp DESC")
     fun getAllSessions(): Flow<List<FocusSession>>
+
+    @Delete
+    suspend fun delete(session: FocusSession)
+
+    // Tambahkan fungsi untuk menghapus semua sesi
+    @Query("DELETE FROM focus_sessions")
+    suspend fun clearAll()
 }

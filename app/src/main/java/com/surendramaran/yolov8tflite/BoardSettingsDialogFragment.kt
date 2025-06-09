@@ -2,6 +2,8 @@ package com.surendramaran.yolov8tflite
 
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.ArrayAdapter
@@ -12,12 +14,12 @@ import com.surendramaran.yolov8tflite.databinding.DialogBoardSettingsBinding
 
 class BoardSettingsDialogFragment : DialogFragment() {
 
-    // --- PERBAIKAN 1: Tambahkan parameter phoneAlertEnabled ke interface ---
     interface BoardSettingsListener {
         fun onBoardSettingsSaved(
             x1: Float, y1: Float, x2: Float, y2: Float,
             detectionMode: String, scaleFactor: Float, skipFrames: Int,
-            phoneAlertEnabled: Boolean // <-- Parameter ini sekarang ada
+            phoneAlertEnabled: Boolean,
+            unfocusedAlertEnabled: Boolean // <-- Parameter baru
         )
     }
 
@@ -36,12 +38,16 @@ class BoardSettingsDialogFragment : DialogFragment() {
         setupViews()
         loadCurrentSettings()
 
-        return AlertDialog.Builder(requireActivity())
+        binding.buttonDialogCancel.setOnClickListener { dismiss() }
+        binding.buttonDialogSave.setOnClickListener { saveSettings() }
+
+        val dialog = AlertDialog.Builder(requireActivity())
             .setView(binding.root)
-            .setTitle("Pengaturan Aplikasi")
-            .setPositiveButton("Simpan") { _, _ -> saveSettings() }
-            .setNegativeButton("Batal", null)
             .create()
+
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        return dialog
     }
 
     private fun setupViews() {
@@ -66,8 +72,9 @@ class BoardSettingsDialogFragment : DialogFragment() {
 
         binding.editTextSkipFrames.setText(sharedPrefs.getInt("skip_frames", 1).toString())
 
-        // Muat status Switch dari SharedPreferences
         binding.switchPhoneAlert.isChecked = sharedPrefs.getBoolean("phone_alert_enabled", true)
+        // Muat status Switch baru
+        binding.switchUnfocusedAlert.isChecked = sharedPrefs.getBoolean("unfocused_alert_enabled", true)
     }
 
     private fun saveSettings() {
@@ -81,9 +88,9 @@ class BoardSettingsDialogFragment : DialogFragment() {
             val selectedDetectionMode = binding.autoCompleteDetectionMode.text.toString()
             val scaleFactor = binding.sliderScaleFactor.value
             val skipFrames = binding.editTextSkipFrames.text.toString().toInt()
-
-            // --- PERBAIKAN 2: Ambil status dari Switch ---
             val phoneAlertEnabled = binding.switchPhoneAlert.isChecked
+            // Ambil status dari Switch baru
+            val unfocusedAlertEnabled = binding.switchUnfocusedAlert.isChecked
 
             if (x1 in 0.0..1.0 && y1 in 0.0..1.0 && x2 in 0.0..1.0 && y2 in 0.0..1.0 &&
                 x1 < x2 && y1 < y2 &&
@@ -97,13 +104,14 @@ class BoardSettingsDialogFragment : DialogFragment() {
                     putString("detection_mode", selectedDetectionMode)
                     putFloat("scale_factor", scaleFactor)
                     putInt("skip_frames", skipFrames)
-                    // --- PERBAIKAN 3: Simpan status Switch baru ---
                     putBoolean("phone_alert_enabled", phoneAlertEnabled)
+                    // Simpan status Switch baru
+                    putBoolean("unfocused_alert_enabled", unfocusedAlertEnabled)
                     apply()
                 }
 
-                // --- PERBAIKAN 4: Kirim nilai baru (8 parameter) ke MainActivity ---
-                listener?.onBoardSettingsSaved(x1, y1, x2, y2, selectedDetectionMode, scaleFactor, skipFrames, phoneAlertEnabled)
+                // Kirim semua nilai kembali ke MainActivity
+                listener?.onBoardSettingsSaved(x1, y1, x2, y2, selectedDetectionMode, scaleFactor, skipFrames, phoneAlertEnabled, unfocusedAlertEnabled)
                 Toast.makeText(context, "Pengaturan disimpan", Toast.LENGTH_SHORT).show()
                 dismiss()
             } else {

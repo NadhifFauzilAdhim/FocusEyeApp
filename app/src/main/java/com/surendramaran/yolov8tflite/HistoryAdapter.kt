@@ -18,7 +18,9 @@ import java.util.Date
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
-class HistoryAdapter : ListAdapter<FocusSession, HistoryAdapter.HistoryViewHolder>(DiffCallback()) {
+class HistoryAdapter(
+    private val onDeleteClicked: (FocusSession) -> Unit
+) : ListAdapter<FocusSession, HistoryAdapter.HistoryViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
         val binding = ItemHistorySessionBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -27,17 +29,17 @@ class HistoryAdapter : ListAdapter<FocusSession, HistoryAdapter.HistoryViewHolde
 
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
         val currentSession = getItem(position)
-        holder.bind(currentSession)
+        holder.bind(currentSession, onDeleteClicked)
     }
 
     class HistoryViewHolder(private val binding: ItemHistorySessionBinding) : RecyclerView.ViewHolder(binding.root) {
+        // --- PERBAIKAN: Ganti 'i' dengan 'yyyy' untuk tahun ---
         private val dateFormatter = SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault())
 
-        fun bind(session: FocusSession) {
+        fun bind(session: FocusSession, onDeleteClicked: (FocusSession) -> Unit) {
             binding.textViewTimestamp.text = dateFormatter.format(Date(session.timestamp))
             binding.textViewSessionDetails.text = "Total ${session.totalStudents} Siswa"
 
-            // Format dan tampilkan durasi dari detik ke menit dan detik
             val minutes = TimeUnit.SECONDS.toMinutes(session.durationInSeconds.toLong())
             val seconds = session.durationInSeconds % 60
             binding.textViewDuration.text = "Durasi: $minutes menit $seconds detik"
@@ -50,6 +52,10 @@ class HistoryAdapter : ListAdapter<FocusSession, HistoryAdapter.HistoryViewHolde
             binding.textViewUnfocusedLabel.text = "Tdk Fokus (${String.format("%.0f", unfocusedPercentage)}%)"
 
             setupPieChart(session)
+
+            binding.buttonDelete.setOnClickListener {
+                onDeleteClicked(session)
+            }
         }
 
         private fun setupPieChart(session: FocusSession) {
@@ -90,7 +96,7 @@ class HistoryAdapter : ListAdapter<FocusSession, HistoryAdapter.HistoryViewHolde
                 setHoleColor(Color.TRANSPARENT)
                 centerText = "Sesi"
                 setCenterTextSize(16f)
-                setCenterTextColor(ContextCompat.getColor(context, R.color.focused_green))
+                setCenterTextColor(ContextCompat.getColor(context, R.color.black))
                 invalidate()
             }
         }
@@ -99,7 +105,6 @@ class HistoryAdapter : ListAdapter<FocusSession, HistoryAdapter.HistoryViewHolde
     class DiffCallback : DiffUtil.ItemCallback<FocusSession>() {
         override fun areItemsTheSame(oldItem: FocusSession, newItem: FocusSession) =
             oldItem.id == newItem.id
-
         override fun areContentsTheSame(oldItem: FocusSession, newItem: FocusSession) =
             oldItem == newItem
     }
