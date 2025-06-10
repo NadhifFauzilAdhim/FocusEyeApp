@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- Tombol Riwayat Analisis -->
+    <item
+        android:id="@+id/action_history"
+        android:icon="@drawable/baseline_assessment_24"
+        android:title="Riwayat"
+        android:contentDescription="Buka riwayat analisis"
+        app:showAsAction="ifRoom" />
+
+    <!-- Tombol Tampilkan/Sembunyikan Chart -->
+    <item
+        android:id="@+id/action_toggle_chart"
+        android:icon="@drawable/baseline_ad_units_24"
+        android:title="Grafik"
+        android:contentDescription="Tampilkan atau sembunyikan grafik"
+        app:showAsAction="ifRoom" />
+
+    <!-- Tombol Ganti Kamera -->
+    <item
+        android:id="@+id/action_switch_camera"
+        android:icon="@drawable/baseline_flip_camera_ios_24"
+        android:title="Ganti Kamera"
+        android:contentDescription="Ganti kamera depan/belakang"
+        app:showAsAction="ifRoom" />
+
+    <!-- Tombol Pengaturan -->
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@drawable/baseline_settings_24"
+        android:title="Pengaturan"
+        android:contentDescription="Buka pengaturan"
+        app:showAsAction="ifRoom" />
+</menu>

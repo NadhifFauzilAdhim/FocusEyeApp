@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginEnd="16dp"
-    android:layout_marginBottom="8dp"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="4dp">
+    android:layout_margin="12dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="6dp"
+    android:backgroundTint="?attr/colorSurface">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp">
 
+        <!-- Header Section -->
         <ImageView
             android:id="@+id/icon_history_item"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:src="@drawable/baseline_assessment_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -30,36 +28,40 @@
             android:id="@+id/textViewTimestamp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="12dp"
             android:textAppearance="?attr/textAppearanceTitleMedium"
-            app:layout_constraintEnd_toStartOf="@id/buttonDelete"
+            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/icon_history_item"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="09 Jun 2025, 10:30" />
+            app:layout_constraintEnd_toStartOf="@id/buttonDelete"
+            android:text="09 Jun 2025, 10:30" />
 
+        <!-- Session Info -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonDelete"
             style="?attr/materialIconButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="Hapus sesi ini"
+            app:backgroundTint="?attr/colorSurfaceContainerLow"
             app:icon="@drawable/baseline_auto_delete_24"
             app:iconTint="?attr/colorError"
+            app:layout_constraintBottom_toBottomOf="@id/icon_history_item"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/icon_history_item"/>
+            app:layout_constraintVertical_bias="0.041" />
 
         <TextView
             android:id="@+id/textViewSessionDetails"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:layout_marginTop="6dp"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
             android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintStart_toStartOf="@id/textViewTimestamp"
             app:layout_constraintTop_toBottomOf="@id/textViewTimestamp"
-            tools:text="Total 5 Siswa" />
+            app:layout_constraintEnd_toStartOf="@id/pieChartHistory"
+            android:text="Total 5 Siswa" />
 
         <ImageView
             android:id="@+id/icon_duration"
@@ -76,69 +78,72 @@
             android:id="@+id/textViewDuration"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="6dp"
             android:textAppearance="?attr/textAppearanceBodySmall"
             android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintStart_toEndOf="@id/icon_duration"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/icon_duration"
             app:layout_constraintBottom_toBottomOf="@id/icon_duration"
-            tools:text="Durasi: 5 menit 12 detik" />
+            app:layout_constraintEnd_toStartOf="@id/pieChartHistory"
+            android:text="Durasi: 5 menit 12 detik" />
 
+        <!-- Pie Chart -->
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pieChartHistory"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewDuration"
+            app:layout_constraintTop_toBottomOf="@id/icon_history_item"
             app:layout_constraintBottom_toBottomOf="parent" />
 
+        <!-- Legend -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginEnd="16dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="@id/pieChartHistory"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/pieChartHistory"
-            app:layout_constraintTop_toTopOf="@id/pieChartHistory"
-            app:layout_constraintBottom_toBottomOf="@id/pieChartHistory">
+            app:layout_constraintBottom_toBottomOf="@id/pieChartHistory"
+            android:layout_marginEnd="12dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
                 <View
                     android:layout_width="12dp"
                     android:layout_height="12dp"
-                    android:background="@drawable/chip_background_green" />
+                    android:background="@drawable/chip_background_green"
+                    android:layout_marginEnd="6dp"/>
                 <TextView
                     android:id="@+id/textViewFocusedLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
                     android:textAppearance="?attr/textAppearanceBodyMedium"
-                    tools:text="Fokus (80%)"/>
+                    android:text="Fokus (80%)"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_marginTop="8dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:gravity="center_vertical">
                 <View
                     android:layout_width="12dp"
                     android:layout_height="12dp"
-                    android:background="@drawable/chip_background_red" />
+                    android:background="@drawable/chip_background_red"
+                    android:layout_marginEnd="6dp"/>
                 <TextView
                     android:id="@+id/textViewUnfocusedLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
                     android:textAppearance="?attr/textAppearanceBodyMedium"
-                    tools:text="Tdk Fokus (20%)"/>
+                    android:text="Tdk Fokus (20%)"/>
             </LinearLayout>
         </LinearLayout>
 

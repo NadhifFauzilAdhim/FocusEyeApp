@@ -8,18 +8,16 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FocusSessionDao {
-    // Fungsi untuk memasukkan data baru. `suspend` berarti harus dijalankan di background thread.
+
     @Insert
     suspend fun insert(session: FocusSession)
 
-    // Fungsi untuk mengambil semua data, diurutkan dari yang terbaru (opsional, berguna untuk nanti)
     @Query("SELECT * FROM focus_sessions ORDER BY timestamp DESC")
     fun getAllSessions(): Flow<List<FocusSession>>
 
     @Delete
     suspend fun delete(session: FocusSession)
 
-    // Tambahkan fungsi untuk menghapus semua sesi
     @Query("DELETE FROM focus_sessions")
     suspend fun clearAll()
 }
