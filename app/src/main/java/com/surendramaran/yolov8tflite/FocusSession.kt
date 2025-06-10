@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "focus_sessions")
 data class FocusSession(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    val id: Long = 0,
     val timestamp: Long,
     val focusedCount: Int,
     val unfocusedCount: Int,

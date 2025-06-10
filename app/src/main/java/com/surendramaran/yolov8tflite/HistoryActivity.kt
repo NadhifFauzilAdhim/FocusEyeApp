@@ -1,5 +1,6 @@
 package com.surendramaran.yolov8tflite
 
+import android.content.Intent // <-- Pastikan import ini ada
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -26,11 +27,19 @@ class HistoryActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        // --- PERBAIKAN: Tentukan tipe parameter lambda secara eksplisit ---
-        val adapter = HistoryAdapter { session: FocusSession ->
-            showDeleteConfirmationDialog(session)
-        }
-        // --------------------------------------------------------------------
+        // --- PERUBAHAN UTAMA: Perbarui cara membuat adapter ---
+        val adapter = HistoryAdapter(
+            onDeleteClicked = { session ->
+                showDeleteConfirmationDialog(session)
+            },
+            onItemClicked = { session ->
+                val intent = Intent(this, HistoryDetailActivity::class.java).apply {
+                    putExtra("SESSION_ID", session.id)
+                }
+                startActivity(intent)
+            }
+        )
+        // ----------------------------------------------------
 
         binding.recyclerViewHistory.adapter = adapter
 
@@ -46,8 +55,9 @@ class HistoryActivity : AppCompatActivity() {
         }
     }
 
-    // Fungsi untuk menampilkan dialog konfirmasi penghapusan satu item
+    // Fungsi lainnya tidak ada perubahan...
     private fun showDeleteConfirmationDialog(session: FocusSession) {
+        // ... (kode tetap sama)
         AlertDialog.Builder(this)
             .setTitle("Hapus Sesi")
             .setMessage("Apakah Anda yakin ingin menghapus riwayat sesi ini?")
@@ -59,8 +69,8 @@ class HistoryActivity : AppCompatActivity() {
             .show()
     }
 
-    // Fungsi untuk menampilkan dialog konfirmasi penghapusan semua item
     private fun showClearAllConfirmationDialog() {
+        // ... (kode tetap sama)
         AlertDialog.Builder(this)
             .setTitle("Hapus Semua Riwayat")
             .setMessage("Apakah Anda yakin ingin menghapus semua riwayat analisis? Tindakan ini tidak dapat dibatalkan.")
@@ -72,13 +82,12 @@ class HistoryActivity : AppCompatActivity() {
             .show()
     }
 
-    // Tampilkan menu di toolbar
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        // ... (kode tetap sama)
         menuInflater.inflate(R.menu.history_menu, menu)
         return true
     }
 
-    // Tangani klik pada item menu
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_clear_all -> {

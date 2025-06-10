@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="12dp"
     app:cardCornerRadius="20dp"
     app:cardElevation="6dp"
     android:backgroundTint="?attr/colorSurface">
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-        <!-- Header Section -->
         <ImageView
             android:id="@+id/icon_history_item"
             android:layout_width="24dp"
@@ -34,9 +33,8 @@
             app:layout_constraintStart_toEndOf="@id/icon_history_item"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@id/buttonDelete"
-            android:text="09 Jun 2025, 10:30" />
+            tools:text="09 Jun 2025, 10:30" />
 
-        <!-- Session Info -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonDelete"
             style="?attr/materialIconButtonStyle"
@@ -61,7 +59,7 @@
             app:layout_constraintStart_toStartOf="@id/textViewTimestamp"
             app:layout_constraintTop_toBottomOf="@id/textViewTimestamp"
             app:layout_constraintEnd_toStartOf="@id/pieChartHistory"
-            android:text="Total 5 Siswa" />
+            tools:text="Total 5 Siswa" />
 
         <ImageView
             android:id="@+id/icon_duration"
@@ -85,9 +83,8 @@
             app:layout_constraintTop_toTopOf="@id/icon_duration"
             app:layout_constraintBottom_toBottomOf="@id/icon_duration"
             app:layout_constraintEnd_toStartOf="@id/pieChartHistory"
-            android:text="Durasi: 5 menit 12 detik" />
+            tools:text="Durasi: 5 menit 12 detik" />
 
-        <!-- Pie Chart -->
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pieChartHistory"
             android:layout_width="120dp"
@@ -95,10 +92,10 @@
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/icon_history_item"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toTopOf="@id/buttonViewPhotos" />
 
-        <!-- Legend -->
         <LinearLayout
+            android:id="@+id/legendLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -108,7 +105,6 @@
             app:layout_constraintEnd_toStartOf="@id/pieChartHistory"
             app:layout_constraintBottom_toBottomOf="@id/pieChartHistory"
             android:layout_marginEnd="12dp">
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -124,9 +120,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?attr/textAppearanceBodyMedium"
-                    android:text="Fokus (80%)"/>
+                    tools:text="Fokus (80%)"/>
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -143,9 +138,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?attr/textAppearanceBodyMedium"
-                    android:text="Tdk Fokus (20%)"/>
+                    tools:text="Tdk Fokus (20%)"/>
             </LinearLayout>
         </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonViewPhotos"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Lihat Foto Tangkapan"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/legendLayout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

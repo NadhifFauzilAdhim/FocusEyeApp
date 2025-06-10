@@ -20,23 +20,6 @@
         app:srcCompat="@mipmap/ic_logo_welcome_foreground" />
 
     <TextView
-        android:id="@+id/welcome_description"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="40dp"
-        android:alpha="0.8"
-        android:text="The smart app for understanding and improving concentration. Get real-time insights to help you, your child, or your students reach their full potential."
-        android:textAlignment="center"
-        android:textAppearance="?attr/textAppearanceBodyLarge"
-        android:textColor="#000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/welcome_title" />
-
-    <TextView
         android:id="@+id/welcome_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -53,22 +36,51 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/welcome_illustration" />
 
+    <TextView
+        android:id="@+id/welcome_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="40dp"
+        android:text="The smart app for understanding and improving concentration. Get real-time insights to help you, your child, or your students reach their full potential."
+        android:textAlignment="center"
+        android:textAppearance="?attr/textAppearanceBodyLarge"
+        android:textColor="#000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/welcome_title" />
+
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_continue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="24dp"
         android:padding="14dp"
         android:text="Get Started"
         android:textAppearance="?attr/textAppearanceLabelLarge"
         android:textStyle="bold"
         app:cornerRadius="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/footer_text"
+        />
+
+    <TextView
+        android:id="@+id/footer_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="© 2025 NDFProject. All rights reserved."
+        android:textAppearance="?attr/textAppearanceCaption"
+        android:textColor="#000"
+        android:alpha="0.7"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
