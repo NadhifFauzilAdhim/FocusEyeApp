@@ -15,7 +15,6 @@ import com.google.mediapipe.tasks.vision.facelandmarker.FaceLandmarkerResult
 import kotlin.math.abs
 import kotlin.math.sqrt
 
-// ----- Definisi Data Class dan Enum (Tidak ada perubahan) -----
 enum class HeadDirection {
     FORWARD, LEFT, RIGHT, UP, DOWN, SLIGHT_LEFT, SLIGHT_RIGHT, UNKNOWN
 }
@@ -43,7 +42,6 @@ data class FaceAnalytics(
 data class ProcessedFaceData(
     val allFaceAnalytics: List<FaceAnalytics>
 )
-// ----- Akhir Definisi -----
 
 class FaceMeshProcessor(
     private val context: Context,
@@ -134,12 +132,6 @@ class FaceMeshProcessor(
         return if (validCount > 0) PointF(sumX / validCount, sumY / validCount) else null
     }
 
-    /**
-     * --- PERBAIKAN UTAMA ---
-     * Fungsi ini sekarang meniru logika dari file Python.
-     * Ia menghitung perpotongan vektor dengan tepi area papan tulis (boardArea).
-     * Jika tidak ada perpotongan, ia mengembalikan panah pendek.
-     */
     private fun projectVectorToBoardEdges(startPoint: PointF, directionVector: PointF, board: RectF): PointF {
         val x0 = startPoint.x
         val y0 = startPoint.y

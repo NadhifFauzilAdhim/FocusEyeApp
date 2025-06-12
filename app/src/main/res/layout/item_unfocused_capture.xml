@@ -20,6 +20,7 @@
             android:scaleType="centerCrop"
             app:layout_constraintDimensionRatio="1:1.5"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@tools:sample/backgrounds/scenic" />
@@ -28,7 +29,7 @@
             android:id="@+id/scrim"
             android:layout_width="0dp"
             android:layout_height="30dp"
-            android:background="@drawable/welcome_gradient_background"
+            android:background="@drawable/gradient_header_background"
             app:layout_constraintBottom_toBottomOf="@id/imageViewCapture"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

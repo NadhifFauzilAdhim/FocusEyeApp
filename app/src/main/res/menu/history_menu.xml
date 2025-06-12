@@ -6,5 +6,5 @@
         android:icon="@drawable/baseline_auto_delete_24"
         android:title="Hapus Semua Riwayat"
         app:showAsAction="ifRoom"
-        app:iconTint="?attr/colorError" />
+        app:iconTint="@color/white" />
 </menu>

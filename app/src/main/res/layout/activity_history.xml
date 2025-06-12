@@ -15,6 +15,7 @@
             android:id="@+id/toolbar_history"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:titleTextColor="?android:attr/textColorPrimaryInverse"
             app:title="Riwayat Analisis" />
 
     </com.google.android.material.appbar.AppBarLayout>
