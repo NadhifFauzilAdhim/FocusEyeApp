@@ -1,4 +1,4 @@
-package com.surendramaran.yolov8tflite // Pastikan paket ini sesuai
+package com.surendramaran.yolov8tflite
 
 import android.Manifest
 import android.content.Context
@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity(),
     private lateinit var faceMeshProcessor: FaceMeshProcessor
     private lateinit var cameraExecutor: ExecutorService
     private var lastYoloResults: List<BoundingBox> = emptyList()
-    private var lastFaceData: ProcessedFaceData? = null // <-- PERBAIKAN: Variabel untuk menyimpan hasil FaceMesh
+    private var lastFaceData: ProcessedFaceData? = null
     private var yoloInferenceTime: Long = 0
     private var faceMeshInferenceTime: Long = 0
     private lateinit var barChart: BarChart
@@ -297,14 +297,11 @@ class MainActivity : AppCompatActivity(),
 
             lastRotatedBitmap = finalBitmap
 
-            // --- PERBAIKAN KEDIPAN (FLICKER) ---
             if (analyzerFrameCounter % 2 == 0) {
                 detector.detect(finalBitmap)
-                // Langsung panggil updateStatsAndOverlay, yang akan menggunakan lastFaceData
                 updateStatsAndOverlay()
             } else {
                 faceMeshProcessor.process(finalBitmap)
-                // Hasil FaceMesh akan memanggil updateStatsAndOverlay dari callback-nya
             }
         }
 
@@ -317,41 +314,30 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-    // Fungsi ini tidak lagi digunakan karena logika rotasi sudah inline di bindCameraUseCases.
-    // Anda bisa menghapusnya untuk membersihkan kode.
-    /*
-    private fun rotateBitmap(bitmap: Bitmap): Bitmap {
-        ...
-    }
-    */
-
     override fun onDetect(boundingBoxes: List<BoundingBox>, inferenceTime: Long) {
         this.lastYoloResults = boundingBoxes
         this.yoloInferenceTime = inferenceTime
-        // Tidak perlu panggil update di sini, karena sudah ditangani oleh analyzer loop
     }
 
     override fun onEmptyDetect() {
         this.lastYoloResults = emptyList()
         this.yoloInferenceTime = 0
-        updateStatsAndOverlay() // PERBAIKAN: Panggil fungsi tanpa parameter
+        updateStatsAndOverlay()
     }
 
     override fun onFaceMeshResults(processedData: ProcessedFaceData?, inferenceTime: Long) {
         this.faceMeshInferenceTime = inferenceTime
-        this.lastFaceData = processedData // PERBAIKAN: Simpan hasil FaceMesh terakhir
-        updateStatsAndOverlay() // PERBAIKAN: Panggil fungsi tanpa parameter
+        this.lastFaceData = processedData
+        updateStatsAndOverlay()
     }
 
     override fun onFaceMeshError(error: String) {
         runOnUiThread { Toast.makeText(this, "FaceMesh Error: $error", Toast.LENGTH_SHORT).show() }
-        this.lastFaceData = null // PERBAIKAN: Reset data jika error
-        updateStatsAndOverlay() // PERBAIKAN: Panggil fungsi tanpa parameter
+        this.lastFaceData = null
+        updateStatsAndOverlay()
     }
 
-    // --- PERBAIKAN KEDIPAN (FLICKER): Fungsi diubah menjadi tanpa parameter ---
     private fun updateStatsAndOverlay() {
-        // Langsung gunakan variabel class: lastYoloResults dan lastFaceData
         val processedStates = updateTrackedStudents(lastYoloResults, lastFaceData)
 
         val totalStudents = trackedStudents.size
@@ -402,8 +388,6 @@ class MainActivity : AppCompatActivity(),
                 nose != null && student.bbox.contains(nose.x, nose.y)
             }
 
-            // Dengan `lastFaceData`, `faceMatch` tidak akan selalu null di frame YOLO,
-            // sehingga `isFocused` tidak lagi berkedip.
             student.isFocused = faceMatch?.isLookingAtBoard ?: false
             currentFrameStates[yoloIndex] = student.isFocused to (faceMatch?.headDirection ?: HeadDirection.UNKNOWN)
 

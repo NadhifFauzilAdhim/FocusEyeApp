@@ -17,7 +17,7 @@
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_logo_welcome_foreground" />
+        app:srcCompat="@drawable/welcome_icon" />
 
     <TextView
         android:id="@+id/welcome_title"
@@ -43,7 +43,8 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="40dp"
-        android:text="The smart app for understanding and improving concentration. Get real-time insights to help you, your child, or your students reach their full potential."
+        android:text="An intelligent app to monitor attention and focus. Get real-time data to help students and children stay on track and succeed."
+
         android:textAlignment="center"
         android:textAppearance="?attr/textAppearanceBodyLarge"
         android:textColor="#000"
@@ -75,10 +76,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:text="© 2025 NDFProject. All rights reserved."
+        android:text="© 2025 NDFProject. All rights reserved.\nVisit: https://ndfproject.my.id"
         android:textAppearance="?attr/textAppearanceCaption"
         android:textColor="#000"
+        android:autoLink="web"
         android:alpha="0.7"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

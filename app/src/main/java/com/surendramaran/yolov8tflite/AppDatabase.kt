@@ -5,7 +5,6 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-// --- PERBAIKAN: Tambahkan UnfocusedEvent & naikkan versi ---
 @Database(entities = [FocusSession::class, UnfocusedEvent::class], version = 3, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
@@ -22,8 +21,6 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "focus_eye_database"
                 )
-                    // Migrasi destruktif akan menghapus data lama saat struktur berubah.
-                    // Ini adalah cara termudah untuk pengembangan.
                     .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance

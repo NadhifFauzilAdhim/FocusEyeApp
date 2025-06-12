@@ -66,19 +66,17 @@ class Detector(
                 throw IllegalStateException("Unexpected output model shape: ${outputShape.joinToString()}")
             }
 
-            // Load all labels from the asset file
             val allLabels = mutableListOf<String>()
             val inputStream: InputStream = context.assets.open(labelPath)
             BufferedReader(InputStreamReader(inputStream)).useLines { lines ->
                 lines.forEach { allLabels.add(it) }
             }
 
-            // Filter for only "person" and "cell phone", storing their original indices
             val desiredLabelStrings = setOf("person", "cell phone")
             for ((index, label) in allLabels.withIndex()) {
                 if (label in desiredLabelStrings) {
-                    desiredLabelsMap[label] = index // Store: "person" -> 0, "cell phone" -> 67
-                    labels.add(label) // Store: ["person", "cell phone"]
+                    desiredLabelsMap[label] = index
+                    labels.add(label)
                 }
             }
 
@@ -90,7 +88,6 @@ class Detector(
 
         } catch (e: Exception) {
             Log.e("Detector", "Error setting up YOLO detector: ${e.message}", e)
-            // Optionally notify listener of the error
         }
     }
 
@@ -137,16 +134,13 @@ class Detector(
     private fun bestBox(array: FloatArray): List<BoundingBox>? {
         val boundingBoxes = mutableListOf<BoundingBox>()
 
-        // Iterate through each of the N predictions
         for (i in 0 until numPredictions) {
-            // Check scores only for the labels we want ("person", "cell phone")
             for (labelName in desiredLabelsMap.keys) {
 
-                // FIX #1: Safely get the original class index, skip if not found
                 val originalClassIndex = desiredLabelsMap[labelName] ?: continue
 
                 val classScore: Float
-                val scoreIndex = 4 + originalClassIndex // Position of the score for this class
+                val scoreIndex = 4 + originalClassIndex
 
                 if (outputIsDxN) {
                     classScore = array[scoreIndex * numPredictions + i]
@@ -155,9 +149,8 @@ class Detector(
                 }
 
                 if (classScore > CONFIDENCE_THRESHOLD) {
-                    val newClsIndex = labels.indexOf(labelName) // Get the new index (0 or 1)
+                    val newClsIndex = labels.indexOf(labelName)
 
-                    // FIX #2: Correctly declare each variable on its own line
                     val cxNorm: Float
                     val cyNorm: Float
                     val wNorm: Float
@@ -208,7 +201,7 @@ class Detector(
             val iterator = sortedBoxes.iterator()
             while (iterator.hasNext()) {
                 val nextBox = iterator.next()
-                if (first.cls == nextBox.cls) { // Apply NMS only on the same class
+                if (first.cls == nextBox.cls) {
                     val iou = calculateIoU(first, nextBox)
                     if (iou >= IOU_THRESHOLD) {
                         iterator.remove()

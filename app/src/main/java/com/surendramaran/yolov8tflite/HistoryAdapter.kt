@@ -18,10 +18,9 @@ import java.util.Date
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
-// --- PERUBAHAN 1: Tambahkan lambda baru untuk item click ---
 class HistoryAdapter(
     private val onDeleteClicked: (FocusSession) -> Unit,
-    private val onItemClicked: (FocusSession) -> Unit // Lambda untuk klik pada seluruh item
+    private val onItemClicked: (FocusSession) -> Unit
 ) : ListAdapter<FocusSession, HistoryAdapter.HistoryViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
@@ -31,14 +30,12 @@ class HistoryAdapter(
 
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
         val currentSession = getItem(position)
-        // --- PERUBAHAN 2: Kirim lambda item click ke ViewHolder ---
         holder.bind(currentSession, onDeleteClicked, onItemClicked)
     }
 
     class HistoryViewHolder(private val binding: ItemHistorySessionBinding) : RecyclerView.ViewHolder(binding.root) {
         private val dateFormatter = SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault())
 
-        // --- PERUBAHAN 3: Terima lambda item click di fungsi bind ---
         fun bind(
             session: FocusSession,
             onDeleteClicked: (FocusSession) -> Unit,
@@ -60,19 +57,16 @@ class HistoryAdapter(
 
             setupPieChart(session)
 
-            // Listener untuk tombol hapus (tetap sama)
             binding.buttonDelete.setOnClickListener {
                 onDeleteClicked(session)
             }
 
-            // --- PERUBAHAN 4: Tambahkan listener untuk seluruh item ---
             binding.buttonViewPhotos.setOnClickListener {
                 onItemClicked(session)
             }
         }
 
         private fun setupPieChart(session: FocusSession) {
-            // ... (Fungsi ini tidak berubah)
             val totalFrames = session.focusedCount + session.unfocusedCount
             if (totalFrames <= 0) {
                 binding.pieChartHistory.visibility = View.GONE

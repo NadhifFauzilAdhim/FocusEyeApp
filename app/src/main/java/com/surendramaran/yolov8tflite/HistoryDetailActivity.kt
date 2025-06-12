@@ -24,7 +24,7 @@ class HistoryDetailActivity : AppCompatActivity() {
 
         sessionId = intent.getLongExtra("SESSION_ID", -1)
         if (sessionId == -1L) {
-            finish() // Jika tidak ada ID, tutup activity
+            finish()
             return
         }
 

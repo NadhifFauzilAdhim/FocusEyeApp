@@ -23,7 +23,7 @@ interface FocusSessionDao {
     suspend fun delete(session: FocusSession)
 
     @Query("DELETE FROM focus_sessions")
-    suspend fun clearAll() // Ganti nama agar konsisten (opsional)
+    suspend fun clearAll()
 
     @Insert
     suspend fun insertUnfocusedEvent(event: UnfocusedEvent)
@@ -31,13 +31,9 @@ interface FocusSessionDao {
     @Query("SELECT * FROM unfocused_events WHERE sessionId = :sessionId")
     fun getEventsForSession(sessionId: Long): Flow<List<UnfocusedEvent>>
 
-    // --- FUNGSI BARU YANG DIPERLUKAN VIEWMODEL ---
     @Query("SELECT * FROM unfocused_events WHERE sessionId = :sessionId")
     suspend fun getEventsListForSession(sessionId: Long): List<UnfocusedEvent>
 
     @Query("SELECT * FROM unfocused_events")
     suspend fun getAllEventsList(): List<UnfocusedEvent>
-
-    // Fungsi deleteEventsForSession dan clearAllEvents tidak lagi diperlukan
-    // karena sudah ditangani oleh ON DELETE CASCADE
 }

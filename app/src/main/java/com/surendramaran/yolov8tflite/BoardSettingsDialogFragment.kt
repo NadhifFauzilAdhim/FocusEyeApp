@@ -19,7 +19,7 @@ class BoardSettingsDialogFragment : DialogFragment() {
             x1: Float, y1: Float, x2: Float, y2: Float,
             detectionMode: String, scaleFactor: Float, skipFrames: Int,
             phoneAlertEnabled: Boolean,
-            unfocusedAlertEnabled: Boolean // <-- Parameter baru
+            unfocusedAlertEnabled: Boolean
         )
     }
 
@@ -73,7 +73,7 @@ class BoardSettingsDialogFragment : DialogFragment() {
         binding.editTextSkipFrames.setText(sharedPrefs.getInt("skip_frames", 1).toString())
 
         binding.switchPhoneAlert.isChecked = sharedPrefs.getBoolean("phone_alert_enabled", true)
-        // Muat status Switch baru
+
         binding.switchUnfocusedAlert.isChecked = sharedPrefs.getBoolean("unfocused_alert_enabled", true)
     }
 
@@ -89,7 +89,6 @@ class BoardSettingsDialogFragment : DialogFragment() {
             val scaleFactor = binding.sliderScaleFactor.value
             val skipFrames = binding.editTextSkipFrames.text.toString().toInt()
             val phoneAlertEnabled = binding.switchPhoneAlert.isChecked
-            // Ambil status dari Switch baru
             val unfocusedAlertEnabled = binding.switchUnfocusedAlert.isChecked
 
             if (x1 in 0.0..1.0 && y1 in 0.0..1.0 && x2 in 0.0..1.0 && y2 in 0.0..1.0 &&
@@ -105,12 +104,10 @@ class BoardSettingsDialogFragment : DialogFragment() {
                     putFloat("scale_factor", scaleFactor)
                     putInt("skip_frames", skipFrames)
                     putBoolean("phone_alert_enabled", phoneAlertEnabled)
-                    // Simpan status Switch baru
                     putBoolean("unfocused_alert_enabled", unfocusedAlertEnabled)
                     apply()
                 }
 
-                // Kirim semua nilai kembali ke MainActivity
                 listener?.onBoardSettingsSaved(x1, y1, x2, y2, selectedDetectionMode, scaleFactor, skipFrames, phoneAlertEnabled, unfocusedAlertEnabled)
                 Toast.makeText(context, "Pengaturan disimpan", Toast.LENGTH_SHORT).show()
                 dismiss()

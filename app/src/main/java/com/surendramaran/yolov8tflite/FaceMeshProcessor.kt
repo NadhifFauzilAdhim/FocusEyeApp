@@ -1,4 +1,4 @@
-package com.surendramaran.yolov8tflite // Pastikan ini paket Anda
+package com.surendramaran.yolov8tflite
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -142,8 +142,6 @@ class FaceMeshProcessor(
 
         val intersections = mutableListOf<Pair<Float, PointF>>()
 
-        // Cek perpotongan dengan tepi papan tulis
-        // Tepi Kiri (x = board.left)
         if (dx != 0f) {
             val t = (board.left - x0) / dx
             if (t > 0) {

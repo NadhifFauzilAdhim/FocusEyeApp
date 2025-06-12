@@ -11,17 +11,13 @@ class WelcomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Tampilkan layout activity_welcome.xml setiap kali aplikasi dibuka
         setupWelcomeScreen()
     }
 
     private fun setupWelcomeScreen() {
-        // Inflate layout menggunakan ViewBinding
         binding = ActivityWelcomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Ketika tombol "Lanjutkan" ditekan, arahkan ke MainActivity
         binding.buttonContinue.setOnClickListener {
             redirectToMain()
         }
@@ -30,6 +26,6 @@ class WelcomeActivity : AppCompatActivity() {
     private fun redirectToMain() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
-        finish() // Tutup WelcomeActivity agar tidak bisa dikembalikan dengan tombol Back
+        finish()
     }
 }

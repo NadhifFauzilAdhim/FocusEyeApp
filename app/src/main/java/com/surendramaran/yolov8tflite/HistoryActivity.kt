@@ -27,7 +27,6 @@ class HistoryActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        // --- PERUBAHAN UTAMA: Perbarui cara membuat adapter ---
         val adapter = HistoryAdapter(
             onDeleteClicked = { session ->
                 showDeleteConfirmationDialog(session)
@@ -39,7 +38,6 @@ class HistoryActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         )
-        // ----------------------------------------------------
 
         binding.recyclerViewHistory.adapter = adapter
 
@@ -55,7 +53,6 @@ class HistoryActivity : AppCompatActivity() {
         }
     }
 
-    // Fungsi lainnya tidak ada perubahan...
     private fun showDeleteConfirmationDialog(session: FocusSession) {
         // ... (kode tetap sama)
         AlertDialog.Builder(this)
@@ -70,7 +67,6 @@ class HistoryActivity : AppCompatActivity() {
     }
 
     private fun showClearAllConfirmationDialog() {
-        // ... (kode tetap sama)
         AlertDialog.Builder(this)
             .setTitle("Hapus Semua Riwayat")
             .setMessage("Apakah Anda yakin ingin menghapus semua riwayat analisis? Tindakan ini tidak dapat dibatalkan.")
@@ -83,7 +79,6 @@ class HistoryActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        // ... (kode tetap sama)
         menuInflater.inflate(R.menu.history_menu, menu)
         return true
     }
