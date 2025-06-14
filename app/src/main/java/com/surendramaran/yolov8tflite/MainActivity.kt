@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity(),
     FaceMeshProcessor.FaceMeshListener,
     BoardSettingsDialogFragment.BoardSettingsListener {
 
+    // ... (properti kelas lainnya tidak berubah)
     private data class TrackedStudent(
         val id: Int,
         var bbox: RectF,
@@ -100,7 +101,9 @@ class MainActivity : AppCompatActivity(),
 
     private val db by lazy { AppDatabase.getDatabase(this) }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        // ... (onCreate tidak berubah)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -139,6 +142,9 @@ class MainActivity : AppCompatActivity(),
         binding.buttonSwitchCamera.setOnClickListener {
             stopCurrentAnalysis()
             isFrontCamera = !isFrontCamera
+            // [NOTIFIKASI BARU]
+            val cameraName = if (isFrontCamera) "Depan" else "Belakang"
+            Toast.makeText(this, "Kamera dialihkan ke $cameraName", Toast.LENGTH_SHORT).show()
             bindCameraUseCases()
         }
         binding.buttonSettings.setOnClickListener {
@@ -161,6 +167,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun startNewAnalysis() {
+        // ... (tidak ada perubahan, sudah ada Toast)
         isAnalysisRunning = true
         resetChartAccumulators()
         analysisSessionStartTime = System.currentTimeMillis()
@@ -180,6 +187,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun stopCurrentAnalysis() {
+        // ... (tidak ada perubahan, sudah ada Toast)
         if (!isAnalysisRunning) return
         isAnalysisRunning = false
         val durationInMillis = System.currentTimeMillis() - analysisSessionStartTime
@@ -198,15 +206,26 @@ class MainActivity : AppCompatActivity(),
     private fun playPhoneSound() {
         if (phoneAlertPlayer?.isPlaying == false) {
             phoneAlertPlayer?.start()
+            // [NOTIFIKASI BARU]
+            // Menjalankan di UI thread untuk keamanan
+            runOnUiThread {
+                Toast.makeText(this, "Peringatan: Ponsel terdeteksi!", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
     private fun playUnfocusedSound() {
         if (unfocusedAlertPlayer?.isPlaying == false) {
             unfocusedAlertPlayer?.start()
+            // [NOTIFIKASI BARU]
+            // Menjalankan di UI thread untuk keamanan
+            runOnUiThread {
+                Toast.makeText(this, "Peringatan: Siswa tidak fokus!", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
+    // ... (metode lainnya tidak berubah)
     private fun resetChartAccumulators() {
         accumulatedFocusedFrames = 0
         accumulatedUnfocusedFrames = 0
@@ -314,6 +333,13 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
+    // [NOTIFIKASI BARU] Implementasi callback dari DetectorListener
+    override fun onDelegateStatus(statusMessage: String) {
+        runOnUiThread {
+            Toast.makeText(this, statusMessage, Toast.LENGTH_LONG).show()
+        }
+    }
+
     override fun onDetect(boundingBoxes: List<BoundingBox>, inferenceTime: Long) {
         this.lastYoloResults = boundingBoxes
         this.yoloInferenceTime = inferenceTime
@@ -355,7 +381,7 @@ class MainActivity : AppCompatActivity(),
             }
 
             binding.overlay.setYoloResults(lastYoloResults)
-            binding.overlay.setFaceMeshResults(lastFaceData) // Gunakan lastFaceData
+            binding.overlay.setFaceMeshResults(lastFaceData)
             binding.overlay.setProcessedFocusStates(processedStates)
         }
     }
@@ -481,6 +507,7 @@ class MainActivity : AppCompatActivity(),
     private fun distance(p1: PointF, p2: PointF): Float = sqrt((p1.x - p2.x).pow(2) + (p1.y - p2.y).pow(2))
     private fun isStudent(box: BoundingBox): Boolean = box.clsName.equals("person", ignoreCase = true)
 
+
     override fun onBoardSettingsSaved(
         x1: Float, y1: Float, x2: Float, y2: Float,
         detectionMode: String, scaleFactor: Float, skipFrames: Int,
@@ -495,6 +522,8 @@ class MainActivity : AppCompatActivity(),
         this.isUnfocusedAlertEnabled = unfocusedAlertEnabled
         applyCurrentSettings()
         resetChartAccumulators()
+        // [NOTIFIKASI BARU]
+        Toast.makeText(this, "Pengaturan berhasil disimpan", Toast.LENGTH_LONG).show()
     }
 
     private fun setupBarChart() {

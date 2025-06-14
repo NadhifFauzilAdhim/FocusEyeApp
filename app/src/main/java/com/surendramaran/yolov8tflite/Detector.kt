@@ -6,6 +6,8 @@ import android.os.SystemClock
 import android.util.Log
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.Interpreter
+import org.tensorflow.lite.gpu.CompatibilityList
+import org.tensorflow.lite.gpu.GpuDelegate
 import org.tensorflow.lite.support.common.FileUtil
 import org.tensorflow.lite.support.common.ops.NormalizeOp
 import org.tensorflow.lite.support.image.ImageProcessor
@@ -24,7 +26,6 @@ class Detector(
     private var interpreter: Interpreter? = null
     private var labels = mutableListOf<String>()
 
-    // Map to store the original index of the labels we want to detect
     private val desiredLabelsMap = mutableMapOf<String, Int>()
 
     private var tensorWidth = 0
@@ -42,6 +43,19 @@ class Detector(
             val model = FileUtil.loadMappedFile(context, modelPath)
             val options = Interpreter.Options()
             options.numThreads = 4
+
+            val compatList = CompatibilityList()
+            if(compatList.isDelegateSupportedOnThisDevice){
+                val delegateOptions = compatList.bestOptionsForThisDevice
+                val gpuDelegate = GpuDelegate(delegateOptions)
+                options.addDelegate(gpuDelegate)
+                Log.i("Detector", "GPU Delegate is supported and has been enabled.")
+                detectorListener.onDelegateStatus("Akselerasi GPU berhasil diaktifkan.")
+            } else {
+                Log.w("Detector", "GPU Delegate is not supported on this device. Using CPU instead.")
+                detectorListener.onDelegateStatus("GPU tidak didukung, menggunakan CPU.")
+            }
+
             interpreter = Interpreter(model, options)
 
             val inputTensor = interpreter?.getInputTensor(0) ?: throw IllegalStateException("Input tensor not found.")
@@ -81,13 +95,9 @@ class Detector(
             }
 
             Log.d("Detector", "Setup successful.")
-            Log.d("Detector", "Input Tensor Shape: ${inputShape.joinToString()}")
-            Log.d("Detector", "Output Tensor Shape: ${outputShape.joinToString()}")
-            Log.d("Detector", "Desired labels original indices: $desiredLabelsMap")
-            Log.d("Detector", "Filtered labels for detection: $labels")
-
         } catch (e: Exception) {
             Log.e("Detector", "Error setting up YOLO detector: ${e.message}", e)
+            detectorListener.onDelegateStatus("Gagal menginisialisasi detector.")
         }
     }
 
@@ -99,18 +109,15 @@ class Detector(
     fun detect(frame: Bitmap) {
         interpreter ?: return
         if (tensorWidth == 0 || tensorHeight == 0) {
-            Log.w("Detector", "Detector not initialized properly.")
             return
         }
 
         val inferenceTime = SystemClock.uptimeMillis()
-
         val resizedBitmap = Bitmap.createScaledBitmap(frame, tensorWidth, tensorHeight, false)
         val tensorImage = TensorImage(INPUT_IMAGE_TYPE)
         tensorImage.load(resizedBitmap)
         val processedImage = yoloImageProcessor.process(tensorImage)
         val imageBuffer = processedImage.buffer
-
         val outputBuffer = TensorBuffer.createFixedSize(interpreter!!.getOutputTensor(0).shape(), OUTPUT_IMAGE_TYPE)
 
         try {
@@ -126,9 +133,9 @@ class Detector(
 
         if (bestBoxes.isNullOrEmpty()) {
             detectorListener.onEmptyDetect()
-            return
+        } else {
+            detectorListener.onDetect(bestBoxes, finalInferenceTime)
         }
-        detectorListener.onDetect(bestBoxes, finalInferenceTime)
     }
 
     private fun bestBox(array: FloatArray): List<BoundingBox>? {
@@ -136,9 +143,7 @@ class Detector(
 
         for (i in 0 until numPredictions) {
             for (labelName in desiredLabelsMap.keys) {
-
                 val originalClassIndex = desiredLabelsMap[labelName] ?: continue
-
                 val classScore: Float
                 val scoreIndex = 4 + originalClassIndex
 
@@ -150,7 +155,6 @@ class Detector(
 
                 if (classScore > CONFIDENCE_THRESHOLD) {
                     val newClsIndex = labels.indexOf(labelName)
-
                     val cxNorm: Float
                     val cyNorm: Float
                     val wNorm: Float
@@ -175,8 +179,7 @@ class Detector(
 
                     boundingBoxes.add(
                         BoundingBox(
-                            x1 = x1Norm, y1 = y1Norm,
-                            x2 = x2Norm, y2 = y2Norm,
+                            x1 = x1Norm, y1 = y1Norm, x2 = x2Norm, y2 = y2Norm,
                             cx = cxNorm, cy = cyNorm, w = wNorm, h = hNorm,
                             cnf = classScore, cls = newClsIndex, clsName = labelName
                         )
@@ -228,9 +231,11 @@ class Detector(
         return if (unionArea > 0f) intersectionArea / unionArea else 0f
     }
 
+    // Perbarui interface untuk menyertakan callback status
     interface DetectorListener {
         fun onEmptyDetect()
         fun onDetect(boundingBoxes: List<BoundingBox>, inferenceTime: Long)
+        fun onDelegateStatus(statusMessage: String) // Notifikasi baru
     }
 
     companion object {

@@ -55,8 +55,14 @@ dependencies {
     implementation("androidx.camera:camera-lifecycle:${cameraxVersion}")
     implementation("androidx.camera:camera-view:${cameraxVersion}")
 
-    implementation("org.tensorflow:tensorflow-lite:2.14.0")
+    implementation("org.tensorflow:tensorflow-lite:2.16.1")
     implementation("org.tensorflow:tensorflow-lite-support:0.4.4")
+    implementation ("org.tensorflow:tensorflow-lite-gpu:2.16.1")
+    implementation ("org.tensorflow:tensorflow-lite-gpu-api:2.16.1")
+
+//    implementation ("org.tensorflow:tensorflow-lite-task-vision:0.4.4") // Pustaka Task Vision
+//    implementation ("org.tensorflow:tensorflow-lite-gpu-delegate-plugin:0.4.4") // Plugin untuk GPU
+
     implementation("com.google.mediapipe:tasks-vision:0.10.21")
     implementation("com.google.android.material:material:1.12.0")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
