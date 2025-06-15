@@ -1,66 +1,66 @@
-# FocusEye
+# 👁️ FocusEye
 
-**FocusEye** adalah aplikasi Android berbasis YOLOv11, MediaPipe, dan TensorFlow Lite yang dirancang untuk memantau tingkat fokus siswa di dalam kelas secara real-time menggunakan kamera perangkat. Aplikasi ini cocok digunakan untuk penelitian, observasi perilaku belajar, maupun pengembangan sistem pembelajaran pintar.
+**FocusEye** adalah aplikasi Android inovatif yang berfungsi sebagai sistem pemantau fokus dan perhatian secara real-time. Dengan memanfaatkan kekuatan **YOLO**, **MediaPipe**, dan **TensorFlow Lite**, aplikasi ini dirancang untuk membantu pendidik, peneliti, dan orang tua dalam memahami tingkat konsentrasi siswa di lingkungan belajar.
 
----
-
-## 🚀 Fitur Utama
-
-- 🔍 **Deteksi Wajah & Fokus Visual** menggunakan model YOLOv11 (TFLite) dan MediaPipe Face Mesh.
-- 👁️ **Analisis Arah Pandang (Gaze Direction)** dengan MediaPipe untuk mendeteksi apakah siswa melihat ke depan, samping, atau tidak fokus.
-- 📱 **Deteksi Penggunaan Ponsel** dengan YOLOv11 untuk mengidentifikasi apakah siswa memegang atau melihat ke ponsel saat sesi berlangsung.
-- 🚨 **Peringatan Otomatis (Alarm)** saat sistem mendeteksi siswa tidak fokus atau menggunakan ponsel dalam waktu tertentu.
-- 📷 **Kamera Real-Time** dengan dukungan CameraX.
-- 📊 **Area Deteksi Dinamis**: pengguna bisa menentukan posisi “board” di layar sebagai titik fokus utama.
-- 🎨 **Antarmuka Modern** dengan transisi, splash screen, dan UI responsif.
-- 👋 **Welcome Screen** yang muncul setiap kali aplikasi dibuka.
+Aplikasi ini mampu mendeteksi arah pandangan mata, penggunaan ponsel, dan memberikan peringatan otomatis — menjadikannya alat ideal untuk riset perilaku belajar dan pengembangan **kelas pintar**.
 
 ---
 
-## 🧠 Teknologi yang Digunakan
+## 🚀 Fitur Unggulan
 
-| Teknologi           | Deskripsi                                              |
-|---------------------|---------------------------------------------------------|
-| YOLOv11 (TFLite)     | Model deteksi wajah & objek seperti ponsel              |
-| MediaPipe Face Mesh | Deteksi landmark wajah untuk arah pandang               |
-| TensorFlow Lite     | Inferensi model ML ringan di Android                    |
-| Kotlin + XML        | Bahasa dan layout utama Android                         |
-| CameraX             | Library kamera modern Android                           |
-| ViewBinding         | Binding elemen layout tanpa `findViewById`              |
-| Android AudioManager| Digunakan untuk mengaktifkan alarm atau notifikasi suara|
+- **🎯 Deteksi Fokus Multi-Metode**  
+  Menganalisis arah pandangan mata (gaze direction) menggunakan MediaPipe dan mendeteksi penggunaan ponsel dengan model YOLO untuk mendapatkan gambaran konsentrasi yang komprehensif.
 
----
+- **🧍 Analisis Wajah Real-Time**  
+  Menggunakan MediaPipe Face Mesh untuk melacak 478 landmark wajah secara akurat, memungkinkan estimasi arah pandang (atas, bawah, kiri, kanan, tengah) dengan presisi tinggi.
 
-## 👁️ Analisis Arah Pandang (Gaze Estimation)
+- **🔔 Peringatan Cerdas**  
+  Sistem alarm otomatis aktif jika siswa terdeteksi tidak fokus atau menggunakan ponsel melebihi ambang batas waktu tertentu.
 
-Arah pandang ditentukan menggunakan **MediaPipe Face Mesh**:
+- **🖼️ Area Fokus Dinamis**  
+  Pengguna dapat mendefinisikan area "papan tulis" atau titik fokus utama dalam frame kamera untuk analisis kontekstual.
 
-- Mengekstrak koordinat landmark mata kiri dan kanan (mis. 33, 133 untuk mata kanan, 362, 263 untuk mata kiri).
-- Membandingkan posisi pupil relatif terhadap batas kelopak mata.
-- Menentukan apakah subjek melihat ke:
-  - ▶️ Kanan
-  - ◀️ Kiri
-  - 🔼 Atas
-  - 🔽 Bawah
-  - ⏺️ Tengah (fokus)
-
-Ini digunakan untuk memperkirakan apakah siswa memperhatikan papan atau tidak.
+- **🎨 Antarmuka Modern**  
+  Dibangun dengan CameraX, ViewBinding, dan Material Design, memberikan pengalaman pengguna yang intuitif dan responsif.
 
 ---
 
-## 📱 Deteksi Penggunaan Ponsel
+## 🧠 Bagaimana Cara Kerjanya?
 
-Menggunakan **YOLOv11** yang telah dilatih untuk mendeteksi objek "handphone":
+**FocusEye** mengintegrasikan beberapa teknologi machine learning untuk mencapai tujuannya:
 
-- Jika ponsel terdeteksi dalam frame kamera, status siswa akan dianggap **tidak fokus**.
-- Sistem akan memicu peringatan jika penggunaan ponsel berlangsung lebih dari ambang batas waktu tertentu.
+1. **📱 Deteksi Objek (Ponsel):**  
+   Menggunakan model YOLO (TensorFlow Lite) yang ringan untuk mendeteksi keberadaan ponsel di tangan atau sekitar siswa.
+
+2. **👁️ Analisis Arah Pandang:**  
+   MediaPipe Face Mesh memetakan 478 titik wajah. Dengan menghitung posisi pupil terhadap landmark mata, sistem dapat memperkirakan ke mana siswa melihat.
+
+3. **🧩 Logika Keputusan:**  
+   Data dari deteksi objek dan arah pandang digabungkan. Jika siswa melihat keluar area fokus atau terdeteksi menggunakan ponsel terlalu lama, status akan dianggap **"tidak fokus"** dan alarm dipicu.
 
 ---
 
-## 🚨 Fitur Alarm Otomatis
+## 🛠️ Tech Stack
 
-Aplikasi akan memberikan peringatan ketika:
-- 👀 Siswa tidak melihat ke arah papan selama beberapa detik.
-- 📱 Siswa terdeteksi menggunakan ponsel.
-- ⚠️ Alarm berbentuk **suara**, tergantung pengaturan perangkat.
+| Komponen               | Teknologi yang Digunakan                  |
+|------------------------|------------------------------------------|
+| Deteksi Objek          | YOLOv11 via TensorFlow Lite              |
+| Deteksi Wajah & Pandangan | Google MediaPipe (Face Mesh)          |
+| ML Inference Engine    | TensorFlow Lite                          |
+| Bahasa & Arsitektur    | Kotlin (Utama), XML (Layout)             |
+| Kamera & UI            | CameraX, ViewBinding, Material Design    |
+| Notifikasi Suara       | Android AudioManager                     |
+
+---
+
+## 🌱 Dibangun di Atas Fondasi Open Source
+
+Komponen deteksi objek dalam aplikasi ini dikembangkan dari proyek [Object Detection Android App](https://github.com/AarohiSingla/Object-Detection-Android-App) oleh **Aarohi Singla**.
+
+Kami mengembangkan lebih lanjut proyek tersebut dengan:
+- Integrasi analisis arah pandang menggunakan MediaPipe
+- Implementasi logika spesifik untuk kasus penggunaan pemantauan fokus siswa
+
+Kami berterima kasih kepada komunitas open source yang memungkinkan proyek ini terwujud. ❤️
+
 ---

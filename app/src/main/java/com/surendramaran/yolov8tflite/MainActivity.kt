@@ -167,7 +167,6 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun startNewAnalysis() {
-        // ... (tidak ada perubahan, sudah ada Toast)
         isAnalysisRunning = true
         resetChartAccumulators()
         analysisSessionStartTime = System.currentTimeMillis()
@@ -187,7 +186,6 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun stopCurrentAnalysis() {
-        // ... (tidak ada perubahan, sudah ada Toast)
         if (!isAnalysisRunning) return
         isAnalysisRunning = false
         val durationInMillis = System.currentTimeMillis() - analysisSessionStartTime
@@ -206,8 +204,6 @@ class MainActivity : AppCompatActivity(),
     private fun playPhoneSound() {
         if (phoneAlertPlayer?.isPlaying == false) {
             phoneAlertPlayer?.start()
-            // [NOTIFIKASI BARU]
-            // Menjalankan di UI thread untuk keamanan
             runOnUiThread {
                 Toast.makeText(this, "Peringatan: Ponsel terdeteksi!", Toast.LENGTH_SHORT).show()
             }
@@ -217,15 +213,12 @@ class MainActivity : AppCompatActivity(),
     private fun playUnfocusedSound() {
         if (unfocusedAlertPlayer?.isPlaying == false) {
             unfocusedAlertPlayer?.start()
-            // [NOTIFIKASI BARU]
-            // Menjalankan di UI thread untuk keamanan
             runOnUiThread {
                 Toast.makeText(this, "Peringatan: Siswa tidak fokus!", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    // ... (metode lainnya tidak berubah)
     private fun resetChartAccumulators() {
         accumulatedFocusedFrames = 0
         accumulatedUnfocusedFrames = 0
@@ -333,7 +326,6 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-    // [NOTIFIKASI BARU] Implementasi callback dari DetectorListener
     override fun onDelegateStatus(statusMessage: String) {
         runOnUiThread {
             Toast.makeText(this, statusMessage, Toast.LENGTH_LONG).show()
@@ -522,7 +514,6 @@ class MainActivity : AppCompatActivity(),
         this.isUnfocusedAlertEnabled = unfocusedAlertEnabled
         applyCurrentSettings()
         resetChartAccumulators()
-        // [NOTIFIKASI BARU]
         Toast.makeText(this, "Pengaturan berhasil disimpan", Toast.LENGTH_LONG).show()
     }
 

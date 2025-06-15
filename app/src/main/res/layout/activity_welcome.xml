@@ -26,7 +26,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="32dp"
-        android:text="Welcome To FocusEye"
+        android:text="Siap Bantu Kamu Fokus !"
         android:textAlignment="center"
         android:textAppearance="?attr/textAppearanceHeadlineMedium"
         android:textColor="#000"
@@ -43,8 +43,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="40dp"
-        android:text="An intelligent app to monitor attention and focus. Get real-time data to help students and children stay on track and succeed."
-
+        android:text="Aplikasi cerdas untuk meningkatkan atensi dan konsentrasi. Dapatkan data real-time untuk membantu pelajar dan anak-anak tetap di jalur kesuksesan."
         android:textAlignment="center"
         android:textAppearance="?attr/textAppearanceBodyLarge"
         android:textColor="#000"
@@ -52,7 +51,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/welcome_title" />
-
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_continue"
@@ -62,14 +60,54 @@
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="24dp"
         android:padding="14dp"
-        android:text="Get Started"
+        android:text="Mulai"
         android:textAppearance="?attr/textAppearanceLabelLarge"
         android:textStyle="bold"
         app:cornerRadius="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/footer_text"
-        />
+        app:layout_constraintBottom_toTopOf="@id/footer_text" />
+
+    <LinearLayout
+        android:id="@+id/loader_group"
+        android:layout_width="238dp"
+        android:layout_height="210dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
+
+        <ImageView
+            android:id="@+id/loader_image"
+            android:layout_width="110dp"
+            android:layout_height="103dp"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="Memuat..."
+            app:srcCompat="@drawable/loader_icon" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="210dp"
+            android:layout_height="52dp"
+            android:indeterminate="true"
+            android:progressBackgroundTint="#CCCCCC"
+            android:progressTint="#6750a4" />
+
+        <TextView
+            android:id="@+id/loader_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Hampir siap! Mari kita mulai..."
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="#000" />
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/footer_text"
